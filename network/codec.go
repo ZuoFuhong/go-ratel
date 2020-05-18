@@ -3,9 +3,9 @@ package network
 import (
 	"errors"
 	"github.com/golang/protobuf/proto"
-	"github.com/golang/protobuf/ptypes/duration"
 	"go-ratel/common"
 	"net"
+	"time"
 )
 
 const (
@@ -28,7 +28,7 @@ func (c *Codec) Read() error {
 	return c.Buffer.readFromReader()
 }
 
-func (c *Codec) Encode(transferData *common.ServerTransferDataProtoc, duration duration.Duration) error {
+func (c *Codec) Encode(transferData *common.ServerTransferDataProtoc, duration time.Duration) error {
 	encodeData, e := proto.Marshal(transferData)
 	if e != nil {
 		return e
@@ -43,11 +43,15 @@ func (c *Codec) Encode(transferData *common.ServerTransferDataProtoc, duration d
 	copy(buffer, header)
 	copy(buffer[len(header):], encodeData)
 
+	err := c.Conn.SetWriteDeadline(time.Now().Add(duration))
+	if err != nil {
+		return err
+	}
 	_, e = c.Conn.Write(buffer)
 	return e
 }
 
-func (c *Codec) Decode() (*common.ServerTransferDataProtoc, bool, error) {
+func (c *Codec) Decode() (*common.ClientTransferDataProtoc, bool, error) {
 	bodyLen, size := proto.DecodeVarint(c.Buffer.buf[c.Buffer.start:])
 	if bodyLen > MaxContextLen {
 		return nil, false, errors.New("not enough")
@@ -60,7 +64,7 @@ func (c *Codec) Decode() (*common.ServerTransferDataProtoc, bool, error) {
 		return nil, false, nil
 	}
 
-	transferData := common.ServerTransferDataProtoc{}
+	transferData := common.ClientTransferDataProtoc{}
 	e = proto.Unmarshal(body, &transferData)
 	if e != nil {
 		return nil, false, e

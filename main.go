@@ -1,38 +1,34 @@
 package main
 
 import (
-	"fmt"
+	"go-ratel/common"
+	"go-ratel/event"
 	"go-ratel/network"
 	"log"
 	"net"
 )
 
 func main() {
-	addr, e := net.ResolveTCPAddr("tcp", "39.105.65.8:1024")
+	start("39.105.65.8:1024")
+}
+
+func start(address string) {
+	addr, e := net.ResolveTCPAddr("tcp", address)
 	if e != nil {
-		panic(e)
+		log.Panic(e)
 	}
 	conn, e := net.DialTCP("tcp", nil, addr)
 	if e != nil {
-		panic(e)
+		log.Panic(e)
 	}
 
-	for {
-		codec := network.NewCodec(conn)
-		e := codec.Read()
-		if e != nil {
-			log.Print(e)
-		}
-		for {
-			transferData, b, e := codec.Decode()
-			if e != nil {
-				log.Panic(e)
-			}
-			if b {
-				fmt.Println(transferData)
-				continue
-			}
-			break
-		}
-	}
+	// 用两个chan用于 应用层 与 网络层 之间的解耦
+	clientChan := make(chan common.ClientTransferDataProtoc)
+	serverChan := make(chan common.ServerTransferDataProtoc)
+
+	ectx := event.NewEventContext(&clientChan, &serverChan)
+	ectx.DoListen()
+
+	cctx := network.NewConnContext(conn, &clientChan, &serverChan)
+	cctx.DoConn()
 }
