@@ -2,6 +2,20 @@
 
 [Ratel](https://github.com/ainilili/ratel) 命令行斗地主 `golang`客户端，完全支持Netty + Protobuf的通信协议，100%兼容`Ratel`服务端。
 
+## 开始游戏
+
+- 1.启动方式一：指定服务器
+
+```
+$ ./ratel -h 39.105.65.8 -p 1024
+```
+
+- 2.启动方式二：使用可选的服务器
+
+```
+$ ./ratel
+```
+
 ## 关键点剖析
 
 **1.使用Google Protobuf - 实现跨平台跨语言的序列化/反序列化**
