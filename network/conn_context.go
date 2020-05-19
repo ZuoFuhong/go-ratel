@@ -27,7 +27,7 @@ func (ctx *ConnContext) DoConn() {
 	for {
 		e := ctx.codec.Read()
 		if e != nil {
-			log.Print(e)
+			log.Panic(e)
 		}
 		for {
 			transferData, b, e := ctx.codec.Decode()

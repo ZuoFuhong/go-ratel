@@ -1,0 +1,28 @@
+{
+  "clientId": 4753,
+  "clientNickname": "dazuo2",
+  "clientType": "LANDLORD",
+  "pokers": [
+    {
+      "level": "LEVEL_3",
+      "type": "CLUB"
+    },
+    {
+      "level": "LEVEL_4",
+      "type": "CLUB"
+    },
+    {
+      "level": "LEVEL_5",
+      "type": "DIAMOND"
+    },
+    {
+      "level": "LEVEL_6",
+      "type": "DIAMOND"
+    },
+    {
+      "level": "LEVEL_7",
+      "type": "CLUB"
+    }
+  ],
+  "sellClinetNickname": "dazuo3"
+}

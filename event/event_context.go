@@ -5,18 +5,31 @@ import (
 	"log"
 )
 
+type Poker = common.Poker
+type Room = common.Room
+
+const NICKNAME_MAX_LENGTH = 10
+
 // 应用上下文（应用层）
 type Context struct {
-	clientChan *chan common.ClientTransferDataProtoc
-	serverChan *chan common.ServerTransferDataProtoc
-	UserId     int
+	clientChan             *chan common.ClientTransferDataProtoc
+	serverChan             *chan common.ServerTransferDataProtoc
+	UserId                 int
+	LastPokers             *[]Poker
+	LastSellClientNickname string
+	LastSellClientType     string
+	PokerPrinterType       int
 }
 
 func NewEventContext(clientChan *chan common.ClientTransferDataProtoc, serverChan *chan common.ServerTransferDataProtoc) *Context {
 	return &Context{
-		clientChan: clientChan,
-		serverChan: serverChan,
-		UserId:     0,
+		clientChan:             clientChan,
+		serverChan:             serverChan,
+		UserId:                 0,
+		LastPokers:             nil,
+		LastSellClientNickname: "",
+		LastSellClientType:     "",
+		PokerPrinterType:       0,
 	}
 }
 
@@ -98,4 +111,10 @@ func (ctx *Context) pushToServer(serverCode string, data string) {
 		Data: data,
 	}
 	*ctx.serverChan <- transferData
+}
+
+func (ctx *Context) InitLastSellInfo() {
+	ctx.LastPokers = nil
+	ctx.LastSellClientNickname = ""
+	ctx.LastSellClientType = ""
 }

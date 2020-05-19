@@ -1,11 +1,11 @@
 package event
 
 import (
-	"fmt"
+	"go-ratel/command"
 	"strconv"
 )
 
 func ListenerClientConnect(ctx *Context, data string) {
-	fmt.Println("Connection to server is successful. Welcome to ratel!!")
+	command.PrintNotice("Connection to server is successful. Welcome to ratel!!")
 	ctx.UserId, _ = strconv.Atoi(data)
 }
