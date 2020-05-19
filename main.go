@@ -66,7 +66,7 @@ func selectServer() (string, int) {
 
 func getServerList() string {
 	client := http.Client{Timeout: 5 * time.Second}
-	resp, err := client.Get("https://raw.githubusercontent.com/ainilili/ratel/master/serverlist.json")
+	resp, err := client.Get("https://gitee.com/ainilili/ratel/raw/master/serverlist.json")
 	if err != nil {
 		log.Panic(err)
 	}
