@@ -17,6 +17,6 @@ func ListenerRoomJoinSuccess(ctx *Context, data string) {
 		command.PrintNotice("You have joined room：" + strconv.Itoa(int(dataMap["roomId"].(float64))) + ". There are " + strconv.Itoa(int(dataMap["roomClientCount"].(float64))) + " players in the room now.")
 		command.PrintNotice("Please wait for other players to join, start a good game when the room player reaches three !")
 	} else {
-		command.PrintNotice(dataMap["clientNickname"].(string) + " joined room, the current number of room player is " + strconv.Itoa(dataMap["roomClientCount"].(int)))
+		command.PrintNotice(dataMap["clientNickname"].(string) + " joined room, the current number of room player is " + strconv.Itoa(int(dataMap["roomClientCount"].(float64))))
 	}
 }
