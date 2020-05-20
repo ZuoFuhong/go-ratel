@@ -16,6 +16,10 @@ $ ./ratel -h 39.105.65.8 -p 1024
 $ ./ratel
 ```
 
+## 视频演示
+
+[Ratel 命令行斗地主 golang客户端](https://www.bilibili.com/video/BV1kV411k79c)
+
 ## 关键点剖析
 
 **1.使用Google Protobuf - 实现跨平台跨语言的序列化/反序列化**
