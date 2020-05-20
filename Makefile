@@ -6,7 +6,7 @@ GOARCH = amd64
 build:
 	@export GOOS=${GOOS}; \
   	export GOARCH=${GOARCH}; \
-  	go build -o ${BINARY}
+  	go build -o ratel-${GOOS}-${GOARCH}-${VERSION}
 
 test: build
 	@./$(BINARY) -h 39.105.65.8 -p 1024
